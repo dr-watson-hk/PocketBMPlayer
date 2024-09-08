@@ -6,7 +6,7 @@ scale_manager.c is there for setting notes in the chord track. If you don't care
 
 
 
-
+--------------------------------------------------------------------------------
 Copyright (C) Khors Media
 
 Permission to use, copy, modify, and/or distribute this software for any
