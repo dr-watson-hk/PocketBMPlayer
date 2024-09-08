@@ -1,0 +1,7 @@
+name=PocketPlayer
+author=Khors Media
+description=Player for PocketBM
+bundleID=com.khors.pocketplayer
+version=1.0
+buildNumber=1
+imagePath=system/
