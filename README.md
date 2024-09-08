@@ -1,4 +1,4 @@
-PocketBM is a beat making app for PlayDate. This project is the source code for playing back beat files created by PocketBM.
+PocketBM is a beat making app for Playdate. This project is the source code for playing back beat files created by PocketBM.
 
 The format of a beat file is just plain JSON so nothing fancy here, just some codes for decoding JSON, setting up synths and filling in MIDI notes in the sequencer for playback.
 
