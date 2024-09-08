@@ -12,6 +12,7 @@ BeatMachineLoadBeat("demo.bmf");
 
 BeatMachinePlayTheBeat(1);
 
+
 --------------------------------------------------------------------------------
 Copyright (C) Khors Media
 
