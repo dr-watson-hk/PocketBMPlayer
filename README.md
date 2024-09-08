@@ -7,7 +7,9 @@ scale_manager.c is there for setting notes in the chord track. If you don't care
 It's very simple to use the player code, just as an example, to play the beat file call "demo":
 
 BeatMachineCreate(playdate);
+
 BeatMachineLoadBeat("demo.bmf");
+
 BeatMachinePlayTheBeat(1);
 
 --------------------------------------------------------------------------------
