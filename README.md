@@ -4,7 +4,7 @@ The format of a beat file is just plain JSON so nothing fancy here, just some co
 
 scale_manager.c is there for setting notes in the chord track. If you don't care about the chord track, you can remove it from the project and remove the related code from beat_machine.c.
 
-It's very simple to use the player code, just as an example, to play the beat file call "demo":
+It's very simple to use the player code, just as an example, to play a beat file call "demo":
 
 BeatMachineCreate(playdate);
 
