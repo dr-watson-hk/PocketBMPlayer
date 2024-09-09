@@ -82,11 +82,19 @@ int update(void* userData)
 				memset(szBuffer, 0, 16);
 				PrintIntValueToString(szBuffer, 16, 1, nStep);
 
-				int nLen = strlen(szBuffer);
-				pd->graphics->drawText(szBuffer, nLen, kASCIIEncoding, 10, 10);
+				char szOutString[80];
+				memset(szOutString, 0, 80);
+				strcpy(szOutString, "STEP: ");
+				strcat(szOutString, szBuffer);
+
+				int nLen = strlen(szOutString);
+				pd->graphics->drawText(szOutString, nLen, kASCIIEncoding, 10, 100);
 			}
 
 		}
+
+		pd->system->drawFPS(0, 0);
+
 	}
 	return 1;
 }
