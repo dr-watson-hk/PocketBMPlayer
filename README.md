@@ -12,6 +12,8 @@ BeatMachineLoadBeat("demo.bmf");
 
 BeatMachinePlayTheBeat(1);
 
+Lua version:
+https://github.com/dr-watson-hk/PocketBMLuaPlayer
 
 --------------------------------------------------------------------------------
 Copyright (C) Khors Media
