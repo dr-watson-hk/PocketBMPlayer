@@ -359,6 +359,8 @@ void BeatMachineEnableFilter(int nTrack, int nType, int nFreq, float resonant, f
 
 		pBeatMachine->pTracks[nTrack]->fFilterMix = mix;
 		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->filter, mix);
+
+		pd->sound->channel->addEffect(pBeatMachine->pTracks[nTrack]->pChannel, pBeatMachine->pTracks[nTrack]->filter);
 	}
 
 }
@@ -379,6 +381,8 @@ void BeatMachineEnableDelay(int nTrack, float feedback, float mix)
 
 		pBeatMachine->pTracks[nTrack]->fDelayMix = mix;
 		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->delay, mix);
+
+		pd->sound->channel->addEffect(pBeatMachine->pTracks[nTrack]->pChannel, pBeatMachine->pTracks[nTrack]->delay);
 	}
 }
 
@@ -398,6 +402,8 @@ void BeatMachineEnableBitCrusher(int nTrack, float amount, float mix)
 
 		pBeatMachine->pTracks[nTrack]->fBitcrusherMix= mix;
 		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->bitCrusher, mix);
+
+		pd->sound->channel->addEffect(pBeatMachine->pTracks[nTrack]->pChannel, pBeatMachine->pTracks[nTrack]->bitCrusher);
 	}
 
 }
@@ -788,7 +794,7 @@ void* didDecodeSublist(json_decoder* decoder, const char* name, json_value_type 
 			decodeData.nStateCount--;
 
 	}
-	else if (strcmp(name, "lpf") == 0)
+	else if (strcmp(name, "filter") == 0)
 	{
 		if (decodeData.nLoadStates[decodeData.nStateCount - 1] == LOAD_STATE_FILTER)
 		{
