@@ -138,6 +138,8 @@ typedef struct
 	float fBitcrusherAmount;
 	float fBitcrusherMix;
 
+	int bIsDrum;
+
 
 } BeatMachineTrack;
 

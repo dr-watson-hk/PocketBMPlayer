@@ -372,15 +372,13 @@ void BeatMachineEnableDelay(int nTrack, float feedback, float mix)
 	if (pBeatMachine && pBeatMachine->pTracks[nTrack])
 	{
 		pBeatMachine->pTracks[nTrack]->bDelayEnabled = TRUE;
-		pBeatMachine->pTracks[nTrack]->delay = pd->sound->effect->delayline->newDelayLine(128, 2);
-		pd->sound->effect->delayline->setFeedback(pBeatMachine->pTracks[nTrack]->delay, 0.5f);
-		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->delay, 0.5f);
+		pBeatMachine->pTracks[nTrack]->delay = pd->sound->effect->delayline->newDelayLine(11025, 2);
+		pd->sound->effect->delayline->setFeedback(pBeatMachine->pTracks[nTrack]->delay, feedback);
+		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->delay, mix);
 
 		pBeatMachine->pTracks[nTrack]->fDelayFeedback = feedback;
-		pd->sound->effect->delayline->setFeedback(pBeatMachine->pTracks[nTrack]->delay, feedback);
 
 		pBeatMachine->pTracks[nTrack]->fDelayMix = mix;
-		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->delay, mix);
 
 		pd->sound->channel->addEffect(pBeatMachine->pTracks[nTrack]->pChannel, pBeatMachine->pTracks[nTrack]->delay);
 	}
@@ -394,14 +392,12 @@ void BeatMachineEnableBitCrusher(int nTrack, float amount, float mix)
 	{
 		pBeatMachine->pTracks[nTrack]->bBitCrusherEnabled = TRUE;
 		pBeatMachine->pTracks[nTrack]->bitCrusher = pd->sound->effect->bitcrusher->newBitCrusher();
-		pd->sound->effect->bitcrusher->setAmount(pBeatMachine->pTracks[nTrack]->bitCrusher, 0.5f);
-		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->bitCrusher, 0.5f);
+		pd->sound->effect->bitcrusher->setAmount(pBeatMachine->pTracks[nTrack]->bitCrusher, amount);
+		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->bitCrusher, mix);
 
 		pBeatMachine->pTracks[nTrack]->fBitcrusherAmount = amount;
-		pd->sound->effect->bitcrusher->setAmount(pBeatMachine->pTracks[nTrack]->bitCrusher, amount);
 
 		pBeatMachine->pTracks[nTrack]->fBitcrusherMix= mix;
-		pd->sound->effect->setMix(pBeatMachine->pTracks[nTrack]->bitCrusher, mix);
 
 		pd->sound->channel->addEffect(pBeatMachine->pTracks[nTrack]->pChannel, pBeatMachine->pTracks[nTrack]->bitCrusher);
 	}
@@ -437,6 +433,13 @@ void BeatMachineMuteTrack(int nTrack, int bFlag)
 	pd->sound->track->setMuted(pBeatMachine->pTracks[nTrack]->pTrack, bFlag);
 }
 
+
+// --------------------------------------------------------------------------------
+void BeatMachineSetDrumTrack(int nTrack, int bFlag)
+{
+	pBeatMachine->pTracks[nTrack]->bIsDrum = bFlag;
+	
+}
 
 // --------------------------------------------------------------------------------
 void decodeError(json_decoder* decoder, const char* error, int linenum)
@@ -572,6 +575,10 @@ void didDecodeTableValue(json_decoder* decoder, const char* key, json_value valu
 		else if (strcmp(key, "mute") == 0)
 		{
 			BeatMachineMuteTrack(decodeData.nTrack, json_intValue(value));
+		}
+		else if (strcmp(key, "is_drum") == 0)
+		{
+			BeatMachineSetDrumTrack(decodeData.nTrack, json_intValue(value));
 		}
 		else if (strcmp(key, "chord") == 0)
 		{
@@ -728,7 +735,13 @@ void didDecodeArrayValue(json_decoder* decoder, int pos, json_value value)
 				int nStep = decodeData.nStep;
 				int nTrack = decodeData.nTrack;
 
-				pd->sound->track->addNoteEvent(pBeatMachine->pTracks[nTrack]->pTrack, nStep, decodeData.note.len, decodeData.note.pitch, decodeData.note.velocity);
+				int nPitch = NOTE_C4;
+				if (pBeatMachine->pTracks[nTrack]->bIsDrum == 0)
+				{
+					nPitch = decodeData.note.pitch;
+				}
+				
+				pd->sound->track->addNoteEvent(pBeatMachine->pTracks[nTrack]->pTrack, nStep, decodeData.note.len, nPitch, decodeData.note.velocity);
 
 				int nLength = nStep + decodeData.note.len;
 				if (nLength > pBeatMachine->nBeatLength)
